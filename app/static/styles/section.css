@@ -1,0 +1,28 @@
+/* HIDE RADIO */
+.map-container [type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* IMAGE STYLES */
+.map-container [type=radio] + .card {
+    cursor: pointer;
+}
+
+/* CHECKED STYLES */
+.map-container [type=radio]:checked + .card {
+    outline: 3px solid #5d0008;
+}
+
+.card-img-top {
+    width: 100%;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+​

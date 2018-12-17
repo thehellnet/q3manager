@@ -1,0 +1,126 @@
+DELETE
+FROM section;
+DELETE
+FROM command;
+DELETE
+FROM map;
+DELETE
+FROM section_maps;
+
+INSERT INTO section (id, name, description, show_in_view)
+VALUES (0, 'free_for_all', 'Free For All', TRUE),
+       (1, 'torunament', 'Torunament', TRUE),
+       (3, 'team_deathmatch', 'Team Deathmatch', TRUE),
+       (4, 'capture_the_flag', 'Capture The Flag', TRUE),
+       (10, 'generic_server_commands', 'Generic Server Commands', TRUE),
+       (11, 'bot', 'Bot Commands', TRUE)
+;
+
+INSERT INTO command (type, name, default_value, current_value, value_type, description)
+VALUES (10, 'seta sv_hostname', 'Q3A CTF', 'Q3A CTF', 'string', 'name that appears in server list'),
+       (10, 'seta g_motd "Hard', 'CTF 24/7', 'CTF 24/7', 'string', 'message that appears when connecting'),
+       (10, 'seta sv_maxclients', '16', '16', 'number', 'max number of clients than can connect'),
+       (10, 'seta sv_pure', '1', '1', 'boolean', 'pure server, no altered pak files'),
+       (10, 'seta g_quadfactor', '4', '4', 'number', 'quad damage strength (3 is normal)'),
+       (10, 'seta g_friendlyFire', '1', '1', 'boolean', 'friendly fire motherfucker'),
+       -- (4, 'seta g_gametype',          '4','4', 'number', '0:FFA, 1:Tourney, 2:FFA, 3:TD, 4:CTF'),
+       (4, 'seta g_teamAutoJoin', '0', '0', 'boolean', '0:goes into spectator mode, 1:auto joins a team '),
+       (4, 'seta g_teamForceBalance', '0', '0', 'boolean', '0:free selection, 1:forces player on weak team'),
+       (4, 'seta timelimit', '30', '30', 'number', 'Time limit in minutes'),
+       (4, 'seta capturelimit', '8', '8', 'number', 'Capture limit for CTF'),
+       (4, 'seta fraglimit', '0', '0', 'number', 'Frag limit'),
+       -- (3, 'seta g_gametype', '3','3','number', '0:FFA, 1:Tourney, 2:FFA, 3:TD, 4:CTF'),
+       (3, 'seta g_teamAutoJoin', '0', '0', 'boolean', '0:goes into spectator mode, 1:auto joins a team'),
+       (3, 'seta g_teamForceBalance', '1', '1', 'boolean', '0:free selection, 1:forces player on weak team'),
+       (3, 'seta timelimit', '15', '15', 'number', 'Time limit in minutes'),
+       (3, 'seta fraglimit', '25', '25', 'number', 'Frag limit'),
+       -- (0, 'seta g_gametype', '0', '0','number','0:FFA, 1:Tourney, 2:FFA, 3:TD, 4:CTF'),
+       (0, 'seta timelimit', '10', '10', 'number', 'Time limit in minutes'),
+       (0, 'seta fraglimit', '15', '15', 'number', 'Frag limit'),
+       (11, 'seta bot_enable', '1', '1', 'boolean', 'Allow bots on the server'),
+       (11, 'seta bot_nochat', '1', '1', 'boolean', 'Shut those fucking bots up'),
+       (11, 'seta g_spskill', '4', '4', 'number', 'Default skill of bots [1-5] '),
+       (11, 'seta bot_minplayers', '5', '5', 'number', 'This fills the server with bots to satisfy the minimum')
+;
+
+INSERT INTO map (id, name, description, image)
+VALUES (0, 'q3dm0', 'Introduction', NULL),
+       (1, 'q3dm1', 'Arena Gate', NULL),
+       (2, 'q3dm2', 'House of Pain', NULL),
+       (3, 'q3dm3', 'Arena of Death', NULL),
+       (4, 'q3dm4', 'Place of Many Deaths', NULL),
+       (5, 'q3dm5', 'The Forgotten Place', NULL),
+       (6, 'q3dm6', 'The Camping Grounds', NULL),
+       (7, 'q3dm7', 'Temple of Retribution', NULL),
+       (8, 'q3dm8', 'Brimstone Abbey', NULL),
+       (9, 'q3dm9', 'Hero''s Keep', NULL),
+       (10, 'q3dm10', 'The Nameless Place', NULL),
+       (11, 'q3dm11', 'Deva Station', NULL),
+       (12, 'q3dm12', 'The Dredwerkz', NULL),
+       (13, 'q3dm13', 'Lost World', NULL),
+       (14, 'q3dm14', 'Grim Dungeons', NULL),
+       (15, 'q3dm15', 'Demon Keep', NULL),
+       (16, 'q3dm16', 'Bouncy Map', NULL),
+       (17, 'q3dm17', 'The Longest Yard', NULL),
+       (18, 'q3dm18', 'Space Chamber', NULL),
+       (19, 'q3dm19', 'Apocalypse Void', NULL),
+       (101, 'q3tourney1', 'Power Station 0218', NULL),
+       (102, 'q3tourney2', 'The Proving Grounds', NULL),
+       (103, 'q3tourney3', 'Hell''s Gate', NULL),
+       (104, 'q3tourney4', 'Vertical Vengeance', NULL),
+       (105, 'q3tourney5', 'Fatal Instinct', NULL),
+       (106, 'q3tourney6', 'The Very End of You', NULL),
+       (201, 'q3ctf1', 'Dueling Keeps', NULL),
+       (202, 'q3ctf2', 'Troubled Waters', NULL),
+       (203, 'q3ctf3', 'The Stronghold', NULL),
+       (204, 'q3ctf4', 'Space CTF', NULL)
+;
+
+INSERT INTO section_maps (section_id, map_id)
+VALUES (0, 0),
+       (0, 1),
+       (0, 2),
+       (0, 3),
+       (0, 4),
+       (0, 5),
+       (0, 6),
+       (0, 7),
+       (0, 8),
+       (0, 9),
+       (0, 10),
+       (0, 11),
+       (0, 12),
+       (0, 13),
+       (0, 14),
+       (0, 15),
+       (0, 16),
+       (0, 17),
+       (0, 18),
+       (0, 19),
+       (0, 101),
+       (0, 102),
+       (0, 103),
+       (0, 104),
+       (0, 105),
+       (0, 106),
+       (3, 6),
+       (3, 7),
+       (3, 8),
+       (3, 9),
+       (3, 12),
+       (3, 13),
+       (3, 14),
+       (3, 15),
+       (3, 102),
+       (3, 104),
+       (1, 101),
+       (1, 102),
+       (1, 103),
+       (1, 104),
+       (1, 105),
+       (1, 106),
+       (4, 201),
+       (4, 202),
+       (4, 203),
+       (4, 204)
+;
