@@ -5,10 +5,11 @@ import time
 from flask import render_template
 from flask.json import jsonify
 from flask_wtf import FlaskForm
-from wtforms import RadioField, SubmitField, HiddenField
+from wtforms import RadioField, SubmitField, HiddenField, StringField, validators
+from wtforms.fields.html5 import IntegerField
+from wtforms.validators import DataRequired, Required
 
 from app import app
-from app.forms import CommandTextField, CommandCheckBoxField, CommandNumberField
 from app.models import Section
 
 
@@ -24,13 +25,17 @@ def section(section):
     section_id = find_map_by_section(section).first()
 
     form = compose_command_form(section_id)
-    if form.is_submitted():
+    if form.validate_on_submit():
         for command in form.commands:
             if command.data != command.default:
-                send_command(command.name + ' ' + str(command.data))
+                command_str = command.name + ' ' + str(command.data)
+                send_command(command_str)
+                print('Executing command -> ' + command_str)
                 time.sleep(1)
-        if form.maps.data is not None:
-            send_command('map ' + form.maps.data)
+        if hasattr(form, 'map') and form.map.data is not None:
+            map_command_str = 'map ' + form.map.data
+            send_command(map_command_str)
+            print('Executing command -> ' + map_command_str)
         return render_template('section.html', form=form, section=section)
     else:
         pass
@@ -57,6 +62,8 @@ def compose_command_form(section_id):
     class CommandForm(FlaskForm):
         pass
 
+    setattr(CommandForm, 'seta g_gametype', HiddenField(default=section_id.id))
+
     for command in section_id.commands:
         setattr(CommandForm, command.name, get_field_from_value_type(command))
 
@@ -66,10 +73,11 @@ def compose_command_form(section_id):
     choices = []
     for single_map in section_id.maps:
         choices.append((single_map.name, single_map.name))
-    setattr(SectionForm, 'seta g_gametype', HiddenField(default=section_id.id))
-    setattr(SectionForm, 'maps', RadioField(choices=choices))
-    setattr(SectionForm, 'submit', SubmitField('Submit'))
+    if len(choices) > 0:
+        setattr(SectionForm, 'map',
+                RadioField(choices=choices, validators=[DataRequired(message="You must select a map!")]))
     setattr(SectionForm, 'commands', CommandForm(csrf_enabled=False))
+    setattr(SectionForm, 'submit', SubmitField('Confirm'))
     form = SectionForm()
     return form
 
@@ -91,8 +99,9 @@ def check_server_status():
 
 def get_field_from_value_type(command):
     if command.value_type == 'string':
-        return CommandTextField(command=command)
+        return StringField(label=command.name, description=command.description, default=command.current_value)
     elif command.value_type == 'boolean':
-        return CommandCheckBoxField(command=command)
+        return RadioField(label=command.name, choices=[(1, "yes"), (0, "no")], description=command.description,
+                          default=command.current_value)
     elif command.value_type == 'number':
-        return CommandNumberField(command=command)
+        return IntegerField(label=command.name, description=command.description, default=command.current_value)

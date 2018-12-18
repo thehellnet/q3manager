@@ -9,17 +9,23 @@
             Optional Commands
         </div>
         {{ form.hidden_tag() }}
+        {{ form.commands.hidden_tag() }}
         {% for field in form.commands %}
             <div class="form-group">
-{#                {% if field.widget.input_type != 'hidden' %} {{ field.label }}{% endif %}#}
-                {{ field.label }}
+                {% if field.widget.input_type != 'hidden' %} {{ field.label }}{% endif %}
                 {{ field }}
                 <small class="form-text text-muted">{{ field.description }}</small>
             </div>
         {% endfor %}
-        {{ form.submit(class="btn btn-primary") }}
+        {% for error in (form.map.errors if form.map else []) %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+        {{ form.submit(class="btn btn-primary btn-danger") }}
+        <hr>
         <div class="row text-center map-container">
-            {% for map in form.maps %}
+            {% for map in form.map %}
                 <div class="col-lg-3 col-md-6 mb-4">
                     <label>
                         {{ map }}

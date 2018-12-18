@@ -1,0 +1,19 @@
+body {
+    background-color: black;
+    color: red;
+}
+
+.navbar-default {
+    background-color: black;
+    border: none;
+    color: red;
+    border-radius: 0px;
+}
+
+.btn-danger {
+    background-color: red;
+}
+
+.btn-danger:hover {
+    background-color: #d9534f;
+}

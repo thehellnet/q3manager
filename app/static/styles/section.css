@@ -13,7 +13,7 @@
 
 /* CHECKED STYLES */
 .map-container [type=radio]:checked + .card {
-    outline: 3px solid #5d0008;
+    outline: 3px solid red;
 }
 
 .card-img-top {
